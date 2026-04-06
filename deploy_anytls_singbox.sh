@@ -101,7 +101,11 @@ confirm() {
 }
 
 random_password() {
-  tr -dc 'A-Za-z0-9' </dev/urandom | head -c 24
+  local out=''
+  while [ "${#out}" -lt 24 ]; do
+    out="${out}$(head -c 48 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' || true)"
+  done
+  printf '%s' "$out" | cut -c1-24
 }
 
 slugify() {

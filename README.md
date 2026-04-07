@@ -21,7 +21,7 @@ bash deploy_anytls_singbox.sh
 也可以直接远程执行：
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/<YOUR_USER>/<YOUR_REPO>/<BRANCH>/deploy_anytls_singbox.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/YoukeyOS/sing-box-setup/main/deploy_anytls_singbox.sh)
 ```
 
 ## 需要准备

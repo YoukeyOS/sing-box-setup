@@ -75,3 +75,63 @@ ANYTLS_SERVER_IPV4='203.0.113.10' \
 ANYTLS_CF_TOKEN='cf_token_here' \
 bash deploy_anytls_singbox.sh
 ```
+## 运维速查表
+
+### 服务控制
+
+```bash
+systemctl start sing-box
+systemctl stop sing-box
+systemctl restart sing-box
+systemctl status sing-box --no-pager -l
+```
+
+### 开机自启
+
+```bash
+systemctl enable sing-box
+systemctl disable sing-box
+systemctl is-enabled sing-box
+```
+
+### 运行状态
+
+```bash
+systemctl is-active sing-box
+ss -lntp | grep ':443\b'
+```
+
+### 查看日志
+
+```bash
+journalctl -u sing-box -f
+journalctl -u sing-box --output cat -n 100 --no-pager
+```
+
+### 配置检查与重载
+
+```bash
+sing-box check -c /etc/sing-box/config.json
+systemctl restart sing-box
+```
+
+### 证书检查
+
+将下面的域名替换为你自己的完整域名：
+
+```bash
+DOMAIN='sg.example.com'
+openssl s_client -connect "$DOMAIN:443" -servername "$DOMAIN" </dev/null 2>/dev/null | openssl x509 -noout -subject -issuer -dates
+```
+
+### Certbot 续期检查
+
+```bash
+systemctl status certbot.timer --no-pager
+systemctl list-timers | grep certbot
+certbot renew --dry-run
+```
+
+### Cloudflare 检查
+
+AnyTLS 使用的主机名记录应保持 **DNS only（灰云）**，不要开启橙云代理。
